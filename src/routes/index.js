@@ -1,9 +1,9 @@
-var express = require('express');
-var router = express.Router();
+var express = require("express");
+const husmoController = require("../controllers/husmo.controller");
+const indexRouter = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+indexRouter.get("/data", husmoController.data);
+indexRouter.get("/airtime", husmoController.airtime);
 
-module.exports = router;
+module.exports = indexRouter;
