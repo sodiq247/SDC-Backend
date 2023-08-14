@@ -1,23 +1,45 @@
-{
-  "development": {
-    "username": "root",
-    "password": null,
-    "database": "database_development",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+require("dotenv").config();
+
+const { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT, DB_DIALECT } =
+  process.env;
+
+module.exports = {
+  development: {
+    databases: {
+      rest: {
+        database: DB_NAME,
+        username: DB_USER,
+        password: DB_PASSWORD,
+        host: DB_HOST,
+        port: DB_PORT,
+        dialect: DB_DIALECT,
+        logging: false,
+        pool: {
+          max: 151,
+          min: 0,
+          acquire: 60000,
+          idle: 10000,
+        },
+      },
+    },
   },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+  production: {
+    databases: {
+      rest: {
+        database: DB_NAME,
+        username: DB_USER,
+        password: DB_PASSWORD,
+        host: DB_HOST,
+        port: DB_PORT,
+        dialect: DB_DIALECT,
+        logging: false,
+        pool: {
+          max: 151,
+          min: 0,
+          acquire: 60000,
+          idle: 10000,
+        },
+      },
+    },
   },
-  "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  }
-}
+};
