@@ -7,7 +7,7 @@ const sequelize = require("sequelize");
 const { User, Profile, State, UserRole, Role, Otp } = db;
 module.exports = {
   create: async (data) => {
-    let transaction = await db.rest.transaction();
+    let transaction = await db.sequelize.transaction();
     let passwordhash = await bcrypt.hash(
       data.password ? data.password : "Password@1",
       10
@@ -16,7 +16,7 @@ module.exports = {
     try {
       let user = await User.create(
         {
-          username: data.email,
+          username: data.username,
           password: passwordhash,
           activation_token: uniqid("NCC", "CCMS"),
           status: true,
@@ -25,7 +25,7 @@ module.exports = {
       );
       // data.user_id = user.id;
       let role = await Role.findOne({
-        where: { id: data.role },
+        where: { name: data.role },
       });
       await UserRole.create(
         {
@@ -35,10 +35,10 @@ module.exports = {
         { transaction: transaction }
       );
       transaction.commit();
-      mailService.sendAccountVerificationEmail(
-        user.username,
-        user.activation_token
-      );
+      // mailService.sendAccountVerificationEmail(
+      //   user.username,
+      //   user.activation_token
+      // );
       return { user, role, profile };
     } catch (e) {
       transaction.rollback();
@@ -92,6 +92,7 @@ module.exports = {
   },
   login: async (payload) => {
     try {
+      console.log(payload);
       const user = await User.findOne({
         attributes: {
           exclude: ["password_reset_token", "activation_toke"],
@@ -101,12 +102,12 @@ module.exports = {
             model: UserRole,
             include: [{ model: Role }],
           },
-          {
-            model: Otp,
-            attributes: ["created_at", "used"],
-            order: [["created_at", "DESC"]],
-            limit: 1,
-          },
+          // {
+          //   // model: Otp,
+          //   attributes: ["created_at", "used"],
+          //   order: [["created_at", "DESC"]],
+          //   limit: 1,
+          // },
         ],
 
         where: {
@@ -117,6 +118,7 @@ module.exports = {
           ),
         },
       });
+      console.log(user);
       if (user != null) {
         if ((await bcrypt.compare(payload.password, user.password)) == true) {
           if (user.status != false) {

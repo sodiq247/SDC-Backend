@@ -9,18 +9,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasOne(models.Profile, {
-        foreignKey: "user_id",
-        sourceKey: "id",
-      });
+      // User.hasOne(models.Profile, {
+      //   foreignKey: "user_id",
+      //   sourceKey: "id",
+      // });
       User.hasOne(models.UserRole, {
         foreignKey: "user_id",
         sourceKey: "id",
       });
-      User.hasMany(models.Otp, {
-        foreignKey: "user_id",
-        sourceKey: "id",
-      });
+      // User.hasMany(models.Otp, {
+      //   foreignKey: "user_id",
+      //   sourceKey: "id",
+      // });
     }
   }
   User.init(
