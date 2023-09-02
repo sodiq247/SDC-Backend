@@ -21,12 +21,10 @@ module.exports = {
         state: {
           code: null,
         },
-        stakeholder: {
-          code: user.organization.organizationId,
-        },
+     
         role: user.assignedRoleId,
       };
-      console.log(data);
+   
       profileService.create(data, userCheck);
     } else {
       result = responses.exception(stakeholder);

@@ -7,18 +7,22 @@ const sequelize = require("sequelize");
 const { User, Profile, State, UserRole, Role, Otp } = db;
 module.exports = {
   create: async (data) => {
+    console.log(data);
     let transaction = await db.sequelize.transaction();
     let passwordhash = await bcrypt.hash(
       data.password ? data.password : "Password@1",
       10
     );
+
+    let pinHash = await bcrypt.hash(data.pin, 10);
     //  console.log(transaction);
     try {
       let user = await User.create(
         {
-          username: data.username,
+          username: data.email,
           password: passwordhash,
           activation_token: uniqid("NCC", "CCMS"),
+          pin: pinHash,
           status: true,
         },
         { transaction: transaction }
@@ -27,6 +31,18 @@ module.exports = {
       let role = await Role.findOne({
         where: { name: data.role },
       });
+
+      let profile = await Profile.create(
+        {
+          user_id: user.id,
+          firstname: data.firstname,
+          lastname: data.lastname,
+          email: data.email,
+          phone_number: data.phone,
+          referral_code: uniqid(),
+        },
+        { transaction: transaction }
+      );
       await UserRole.create(
         {
           role_id: role.id,
@@ -34,12 +50,9 @@ module.exports = {
         },
         { transaction: transaction }
       );
+
       transaction.commit();
-      // mailService.sendAccountVerificationEmail(
-      //   user.username,
-      //   user.activation_token
-      // );
-      return { user, role, profile };
+      return { status: true, message: "Registration was successful" };
     } catch (e) {
       transaction.rollback();
       return e;

@@ -8,7 +8,12 @@ const server = require("http").createServer(app);
 var indexRouter = require("./src/routes/index");
 
 var app = express();
-
+process.env.TZ = "UTC+1";
+const corsOption = {
+  origin: "*", //this will eventually be restricted on production
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOption));
 // view engine setup
 
 app.use(logger("dev"));
