@@ -1,3 +1,9 @@
 node_modules
 
+<<<<<<< HEAD
 .env
+=======
+.env
+
+.sequelizerc
+>>>>>>> 2131fb776591e0102d136b3c0a40dc5785ccd98d

@@ -6,10 +6,10 @@ module.exports = {
     let token = "Token " + process.env.HUSMO_TOKEN;
     let base_url = process.env.HUSMO_BASEURL;
     let data = JSON.stringify({
-      network: 1,
-      mobile_number: "08068778337",
+      network: req.body.network,
+      mobile_number: req.body.phone_number,
       plan: 51,
-      Ported_number: true,
+      Ported_number: req.body.ported_number,
     });
 
     let url = base_url + "data/";
@@ -23,24 +23,30 @@ module.exports = {
     return result;
   },
   airtime: async (req, res) => {
-    let token = "Token " + process.env.HUSMO_TOKEN;
-    let base_url = process.env.HUSMO_BASEURL;
-    let data = JSON.stringify({
-      network: 1,
-      amount: 50,
-      mobile_number: "08105082299",
-      Ported_number: true,
-      airtime_type: "VTU",
-    });
-    let url = base_url + "topup/";
-    let config = {
-      headers: {
-        Authorization: token,
-      },
-    };
+    try {
+      let token = "Token " + process.env.HUSMO_TOKEN;
+      let base_url = process.env.HUSMO_BASEURL;
+      let data = JSON.stringify({
+        network: req.body.network,
+        amount: req.body.amount,
+        mobile_number: req.body.mobile_number,
+        Ported_number: req.body.ported_number,
+        airtime_type: req.body.airtime_type,
+      });
+      let url = base_url + "topup/";
+      let config = {
+        headers: {
+          Authorization: token,
+        },
+      };
+      console.log(data);
 
-    let result = await apiUtils.post(url, data, config);
-    return result;
+      let result = await apiUtils.post(url, data, config);
+      return result;
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
   },
   allDataTransactions: async (req, res) => {
     let token = "Token " + process.env.HUSMO_TOKEN;

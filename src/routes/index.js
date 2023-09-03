@@ -1,9 +1,16 @@
-var express = require("express");
-const husmoController = require("../controllers/husmo.controller");
-const indexRouter = express.Router();
+const verityToken = require("../helpers/verify-token");
+const accountRoute = require("./account");
+const securedRoute = require("./secure");
+
+const indexRoute = require("express").Router();
 
 /* GET home page. */
-indexRouter.get("/data", husmoController.data);
-indexRouter.get("/airtime", husmoController.airtime);
+indexRoute.use("/api/v1/account", accountRoute);
+indexRoute.use("/api/v1", verityToken, securedRoute);
 
-module.exports = indexRouter;
+indexRoute.get("/", function (req, res, next) {
+  res.send("welcome to sodiq app");
+  return;
+});
+
+module.exports = indexRoute;
