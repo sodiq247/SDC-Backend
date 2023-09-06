@@ -7,9 +7,9 @@ module.exports = {
     let base_url = process.env.HUSMO_BASEURL;
     let data = JSON.stringify({
       network: req.body.network,
-      mobile_number: req.body.phone_number,
-      plan: 51,
-      Ported_number: req.body.ported_number,
+      mobile_number: req.body.mobile_number,
+      plan: 255,
+      Ported_number: true,
     });
 
     let url = base_url + "data/";
