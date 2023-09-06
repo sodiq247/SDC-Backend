@@ -6,6 +6,16 @@ var logger = require("morgan");
 const cors = require("cors");
 const server = require("http").createServer(app);
 var indexRouter = require("./src/routes/index");
+const axios = require("axios").default;
+
+axios.interceptors.response.use(
+  (response) => {
+    return response.data;
+  },
+  (error) => {
+    return error.response.data;
+  }
+);
 
 var app = express();
 process.env.TZ = "UTC+1";
