@@ -41,14 +41,19 @@ module.exports = {
         network: req.body.network,
         amount: req.body.amount,
         mobile_number: req.body.mobile_number,
-        Ported_number: req.body.ported_number,
+        Ported_number: true,
         airtime_type: req.body.airtime_type,
       });
-      let url = base_url + "topup/";
+      let url = base_url + "api/topup/";
       let config = {
-        headers: {
-          Authorization: token,
-        },
+        method: 'post',
+  maxBodyLength: Infinity,
+  url: 'https://www.husmodata.com/api/topup/',
+  headers: { 
+    'Authorization': 'Token a3b49991c6bfd021c12f90f360cf7c33be84ed22', 
+    'Content-Type': 'application/json'
+  },
+  data : data
       };
       console.log(data);
 
@@ -59,6 +64,37 @@ module.exports = {
       return e;
     }
   },
+  electric: async (req, res) => {
+    try {
+      let token = "Token " + process.env.HUSMO_TOKEN;
+      let base_url = process.env.HUSMO_BASEURL;
+      let data = JSON.stringify({
+        disco_name: req.body.disco_name,
+        amount: req.body.amount,
+        meter_number: req.body.meter_number,
+        MeterType: req.body.MeterType,
+      });
+      let url = base_url + "api/billpayment/";
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'https://www.husmodata.com/api/billpayment/',
+        headers: { 
+          'Authorization': 'Token a3b49991c6bfd021c12f90f360cf7c33be84ed22', 
+          'Content-Type': 'application/json'
+  },
+  data : data
+      };
+      console.log(data);
+
+      let result = await apiUtils.post(url, data, config);
+      return result;
+    } catch (e) {
+      console.log('error block',e);
+      return e;
+    }
+  },
+
   allDataTransactions: async (req, res) => {
     let token = "Token " + process.env.HUSMO_TOKEN;
     let base_url = process.env.HUSMO_BASEURL;

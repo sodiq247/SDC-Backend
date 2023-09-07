@@ -11,6 +11,11 @@ module.exports = {
     console.log(result);
     res.send(result);
   },
+  electric: async (req, res) => {
+    let result = await husmoServices.electric(req, res);
+    console.log(result);
+    res.send(result);
+  },
   allDataTransactions: async (req, res) => {
     let result = await husmoServices.allDataTransactions(req, res);
     console.log(result);
