@@ -6,6 +6,7 @@ var logger = require("morgan");
 const cors = require("cors");
 const server = require("http").createServer(app);
 var indexRouter = require("./src/routes/index");
+const { default: axios } = require("axios");
 
 var app = express();
 process.env.TZ = "UTC+1";
@@ -23,6 +24,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
+// axios.interceptors.request.use(
+//   (request)=>{
+//     request.headers
+//   }
+// )
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -37,8 +43,21 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error");
+  res.send(err);
 });
+
+axios.interceptors.response.use(
+  (response) => {
+    return response.data;
+  },
+  (error) => {
+
+    if (error.response.data.code == 401 || error.response.status == 401) {
+     
+    }
+    return error.response.data;
+  }
+)
 
 app.listen(5030, function () {
   console.log("running on port 5030");
