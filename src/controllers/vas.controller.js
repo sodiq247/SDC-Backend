@@ -16,6 +16,11 @@ module.exports = {
     console.log(result);
     res.send(result);
   },
+  cabletv: async (req, res) => {
+    let result = await husmoServices.cabletv(req, res);
+    console.log(result);
+    res.send(result);
+  },
   allDataTransactions: async (req, res) => {
     let result = await husmoServices.allDataTransactions(req, res);
     console.log(result);

@@ -2,36 +2,67 @@ const apiUtils = require("../helpers/apiUtils");
 const { ApiUtils } = require("../helpers/apiUtils");
 
 module.exports = {
+  // data: async (req, res) => {
+  //   try{
+  //     let token = "Token " + process.env.HUSMO_TOKEN;
+  //     let base_url = process.env.HUSMO_BASEURL;
+  //     let data = JSON.stringify({
+  //       network: req.body.network,
+  //       mobile_number: req.body.mobile_number,
+  //       plan: 255,
+  //       Ported_number: true,
+  //     });
+  //     console.log(data)
+  //     // let url = base_url + "api/data/";
+  //     let config = {
+  //       method: 'post',
+  //       maxBodyLength: Infinity,
+  //       url: base_url + '/api/data/',
+  //       headers: { 
+  //         'Authorization': token, 
+  //         'Content-Type': 'application/json'
+  //       },
+  //       data : data
+        
+  //     };
+  
+  //     let result = await apiUtils.post(url, data, config);
+  //     return result;
+  //   }catch(e){
+  //     console.log('error block',e.message)
+  //   }
+
+  // },
   data: async (req, res) => {
-    try{
+    try {
       let token = "Token " + process.env.HUSMO_TOKEN;
       let base_url = process.env.HUSMO_BASEURL;
       let data = JSON.stringify({
         network: req.body.network,
         mobile_number: req.body.mobile_number,
-        plan: 255,
+        plan: req.body.plan,
         Ported_number: true,
       });
-      console.log(data)
-      let url = base_url + "api/data/";
+      let url = base_url + "api/topup/";
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://www.husmodata.com/api/data/',
+        url: base_url + '/api/data/',
         headers: { 
-          'Authorization': 'Token a3b49991c6bfd021c12f90f360cf7c33be84ed22', 
+          'Authorization': token, 
           'Content-Type': 'application/json'
         },
         data : data
         
       };
-  
+      console.log(data);
+
       let result = await apiUtils.post(url, data, config);
       return result;
-    }catch(e){
-      console.log('error block',e.message)
+    } catch (e) {
+      console.log('error block',e);
+      return e;
     }
-
   },
   airtime: async (req, res) => {
     try {
@@ -48,9 +79,9 @@ module.exports = {
       let config = {
         method: 'post',
   maxBodyLength: Infinity,
-  url: 'https://www.husmodata.com/api/topup/',
+  url: base_url + '/api/topup/',
   headers: { 
-    'Authorization': 'Token a3b49991c6bfd021c12f90f360cf7c33be84ed22', 
+    'Authorization': token, 
     'Content-Type': 'application/json'
   },
   data : data
@@ -78,12 +109,72 @@ module.exports = {
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://www.husmodata.com/api/billpayment/',
+        url: base_url + '/api/billpayment/',
         headers: { 
-          'Authorization': 'Token a3b49991c6bfd021c12f90f360cf7c33be84ed22', 
+          'Authorization': token, 
           'Content-Type': 'application/json'
   },
   data : data
+      };
+      console.log(data);
+
+      let result = await apiUtils.post(url, data, config);
+      return result;
+    } catch (e) {
+      console.log('error block',e);
+      return e;
+    }
+  },
+  // cabletv: async (req, res) => {
+  //   try {
+  //     let token = "Token " + process.env.HUSMO_TOKEN;
+  //     let base_url = process.env.HUSMO_BASEURL;
+  //     let data = JSON.stringify({
+  //       cablename: req.body.cablename,
+  //       cableplan: req.body.cableplan,
+  //       smart_card_number: req.body.smart_card_number,
+  //       amount: 4800,
+  //     });
+  //     let url = base_url + "api/billpayment/";
+  //     let config = {
+  //       method: 'post',
+  // maxBodyLength: Infinity,
+  // url: 'https://www.husmodata.com/api/cablesub/',
+  // headers: { 
+  //   'Authorization': 'Token a3b49991c6bfd021c12f90f360cf7c33be84ed22', 
+  //   'Content-Type': 'application/json'
+  // },
+  // data : data
+  //     };
+  //     console.log(data);
+
+  //     let result = await apiUtils.post(url, data, config);
+  //     return result;
+  //   } catch (e) {
+  //     console.log('error block',e);
+  //     return e;
+  //   }
+  // },
+  cabletv: async (req, res) => {
+    try {
+      let token = "Token " + process.env.HUSMO_TOKEN;
+      let base_url = process.env.HUSMO_BASEURL;
+       let data = JSON.stringify({
+        cablename: req.body.cablename,
+        cableplan: req.body.cableplan,
+        smart_card_number: req.body.smart_card_number,
+        amount: 4800,
+      });
+      let url = base_url + "api/billpayment/";
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: base_url + "/api/cablesub/",
+        headers: { 
+          'Authorization': token, 
+          'Content-Type': 'application/json'
+        },
+        data : data
       };
       console.log(data);
 
