@@ -10,11 +10,9 @@ module.exports = {
       network: req.body.network,
       mobile_number: req.body.mobile_number,
       plan: req.body.plan,
-      Ported_number: req.body.ported_number,
+      Ported_number: true,
     };
-
    
-
     let url = base_url + "api/data/";
     let config = {
       headers: {
@@ -23,7 +21,7 @@ module.exports = {
         'Accept':'application/json'
       },
     };
-
+    console.log(data);
 
     let result = await apiUtils.post(url, data, config);
     return result;
@@ -40,7 +38,7 @@ module.exports = {
         network: req.body.network,
         amount: req.body.amount,
         mobile_number: req.body.mobile_number,
-        Ported_number: req.body.ported_number,
+        Ported_number: true,
         airtime_type: req.body.airtime_type,
       };
       let url = base_url + "api/topup/";
@@ -140,7 +138,10 @@ validateMeter: async (req, res) => {
   let token = "Token " + process.env.HUSMO_TOKEN;
   let base_url = process.env.HUSMO_BASEURL;
   let {meternumber, disconame, mtype}=req.body;
-  let url = base_url + `ajax/validate_meter_number?meternumber=${meternumber}&disconame=${disconame}&${mtype}=Prepaid`;
+    // let url = base_url + `ajax/validate_meter_number?meternumber=${meternumber}&disconame=${disconame}&${mtype}=Prepaid`;
+  let url = `${base_url}ajax/validate_meter_number?meternumber=${meternumber}&disconame=${disconame}&mtype=${mtype}`;
+  // console.log(e)
+  
   let config = {
     headers: {
       'Authorization': token,
@@ -156,6 +157,8 @@ validateMeter: async (req, res) => {
   return e;
 }
 },
+
+
 validateIUC: async (req, res) => {
   try {
   let token = "Token " + process.env.HUSMO_TOKEN;

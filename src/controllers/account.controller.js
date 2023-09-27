@@ -18,7 +18,7 @@ module.exports = {
       username: req.body.username,
       password: req.body.password,
     };
-    let result = responses.success("Account created successfully");
+    let result = responses.success("Account login successfully");
     let user = await userService.login(data);
     result = responses.success(user);
     res.status(result.code).send(result);
