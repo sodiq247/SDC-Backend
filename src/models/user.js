@@ -17,6 +17,14 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "user_id",
         sourceKey: "id",
       });
+      User.hasOne(models.Wallet, {
+        foreignKey: "user_id",
+        sourceKey: "id",
+      });
+      User.hasOne(models.willet, {
+        foreignKey: "user_id",
+        sourceKey: "id",
+      });
       // User.hasMany(models.Otp, {
       //   foreignKey: "user_id",
       //   sourceKey: "id",

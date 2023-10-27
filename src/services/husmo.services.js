@@ -1,3 +1,4 @@
+require('dotenv').config({path: '../.env'});
 const apiUtils = require("../helpers/apiUtils");
 const { ApiUtils } = require("../helpers/apiUtils");
 
@@ -6,6 +7,9 @@ module.exports = {
     try {
       let token = "Token " + process.env.HUSMO_TOKEN;
       let base_url = process.env.HUSMO_BASEURL;
+
+      console.log(token)
+
       let data = {
       network: req.body.network,
       mobile_number: req.body.mobile_number,
@@ -127,6 +131,7 @@ module.exports = {
     };
 
     let result = await apiUtils.get(url, config);
+    console.log(token)
     return result;
   } catch (e) {
     console.log(e);
